@@ -1,5 +1,6 @@
 package com.example.todo.exceptionhandler
 
+import com.example.todo.exception.TodoNotFoundException
 import com.example.todo.exception.UserNotFoundException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -33,6 +34,14 @@ class GlobalErrorHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(UserNotFoundException::class)
     fun handleInputRequestError(ex: UserNotFoundException, request: WebRequest): ResponseEntity<Any> {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(
+                ex.message
+            )
+    }
+
+    @ExceptionHandler(TodoNotFoundException::class)
+    fun handleInputRequestError(ex: TodoNotFoundException, request: WebRequest): ResponseEntity<Any> {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
             .body(
                 ex.message

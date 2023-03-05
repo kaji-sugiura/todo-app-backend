@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -43,4 +44,11 @@ class TodoController(val todoService: TodoService) {
         }
         return todoService.searchTodoList(query)
     }
+
+    /**
+     * Todo更新API
+     */
+    @PutMapping("/update/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun updateTodo(@PathVariable("id") id: Int, @RequestBody todoDTO: TodoDTO): Todo = todoService.update(id, todoDTO)
 }
