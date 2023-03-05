@@ -72,4 +72,15 @@ class TodoService(val todoRepository: TodoRepository, val userService: UserServi
         }
         return todoRepository.save(entity)
     }
+
+    /**
+     * 削除(物理削除)
+     *
+     * @param id
+     * @return message 削除が完了した旨のメッセージ
+     */
+    fun delete(id: Int): String {
+        todoRepository.deleteById(id)
+        return "delete has been successfully id: $id"
+    }
 }

@@ -8,6 +8,7 @@ import com.example.todo.entity.Todo
 import com.example.todo.service.TodoService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -50,5 +51,12 @@ class TodoController(val todoService: TodoService) {
      */
     @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun updateTodo(@PathVariable("id") id: Int, @RequestBody todoDTO: TodoDTO): Todo = todoService.update(id, todoDTO)
+    fun updateTodo(@PathVariable("id") id: Int, @Valid @RequestBody todoDTO: TodoDTO): Todo = todoService.update(id, todoDTO)
+
+    /**
+     * Todo削除API
+     */
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun deleteTodo(@PathVariable("id") id: Int):String = todoService.delete(id)
 }
