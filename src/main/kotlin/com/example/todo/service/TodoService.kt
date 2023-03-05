@@ -4,6 +4,7 @@ import com.example.todo.dto.TodoDTO
 import com.example.todo.dto.TodoListSearchQuery
 import com.example.todo.dto.TodoListSearchResult
 import com.example.todo.entity.Todo
+import com.example.todo.exception.TodoNotFoundException
 import com.example.todo.repository.TodoMapper
 import com.example.todo.repository.TodoRepository
 import org.springframework.stereotype.Service
@@ -40,5 +41,35 @@ class TodoService(val todoRepository: TodoRepository, val userService: UserServi
      */
     fun searchTodoList(query: TodoListSearchQuery): List<TodoListSearchResult> {
         return todoMapper.searchTodoList(query)
+    }
+
+    /**
+     * 1件検索
+     *
+     * 指定のidのデータが存在しない場合、例外をスローする。
+     *
+     * @param id
+     * @return Todo
+     */
+    fun findById(id: Int): Todo {
+        val entity = todoRepository.findById(id)
+        if(entity.isEmpty) {
+            throw TodoNotFoundException("todo not found of id $id")
+        }
+        return entity.get()
+    }
+
+    /**
+     * Todo更新
+     *
+     * @param id
+     * @param todoDTO
+     * @return Todo
+     */
+    fun update(id: Int, todoDTO: TodoDTO): Todo {
+        val entity = findById(id).let {
+            Todo(id, todoDTO.title, todoDTO.detail, todoDTO.date, it.status, it.createdAt, LocalDateTime.now(), it.user)
+        }
+        return todoRepository.save(entity)
     }
 }
