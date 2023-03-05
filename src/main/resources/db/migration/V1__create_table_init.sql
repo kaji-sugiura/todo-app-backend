@@ -1,4 +1,4 @@
-CREATE TABLE todo.USER (
+CREATE TABLE IF NOT EXISTS todo.USER (
     id int PRIMARY KEY AUTO_INCREMENT,
     name varchar(255) NOT NULL,
     email varchar(255) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE todo.USER (
     updated_at DATETIME NOT NULL
 );
 
-CREATE TABLE todo.TODO (
+CREATE TABLE IF NOT EXISTS todo.TODO (
     id int PRIMARY KEY AUTO_INCREMENT,
     user_id int NOT NULL,
     title varchar(255) NOT NULL,
