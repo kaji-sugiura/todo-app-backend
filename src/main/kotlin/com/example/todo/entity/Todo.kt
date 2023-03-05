@@ -16,7 +16,7 @@ data class Todo(
     val title: String,
     val detail: String,
     val date: LocalDateTime,
-    val done: Boolean,
+    val status: Int,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
     @ManyToOne(
