@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.todo.repository.TodoMapper">
+    <select id="searchTodoList" parameterType="com.example.todo.dto.TodoListSearchQuery" resultType="com.example.todo.dto.TodoListSearchResult">
+       SELECT
+           t.id,
+           t.user_id AS userId,
+           t.title,
+           t.detail,
+           t.date,
+           t.status,
+           t.created_at AS createdAt,
+           t.updated_at AS updatedAt
+       FROM
+            todo t
+       WHERE
+            t.user_id = #{userId}
+       <if test="title != null">
+           AND t.title LIKE CONCAT('%', #{title}, '%')
+       </if>
+       <if test="searchFrom != null">
+           AND t.date <![CDATA[ >= ]]> #{searchFrom}
+       </if>
+        <if test="searchTo != null">
+           AND t.date <![CDATA[ <= ]]> #{searchTo}
+        </if>
+        <if test="done != null">
+            AND t.status = #{done}
+        </if>
+    </select>
+</mapper>
