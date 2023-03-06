@@ -83,4 +83,19 @@ class TodoService(val todoRepository: TodoRepository, val userService: UserServi
         todoRepository.deleteById(id)
         return "delete has been successfully id: $id"
     }
+
+    /**
+     * ステータス更新
+     *
+     * @param id
+     * @param done
+     * @return TodoEntity
+     */
+    fun updateStatus(id: Int, done: Boolean): Todo {
+        val status = if(done) 1 else 0
+        val entity = findById(id).let {
+            Todo(id, it.title, it.detail, it.date, status, it.createdAt, LocalDateTime.now(), it.user)
+        }
+        return todoRepository.save(entity)
+    }
 }
